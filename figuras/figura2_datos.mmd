@@ -1,0 +1,34 @@
+%%{init: {"flowchart": {"htmlLabels": false, "nodeSpacing": 45, "rankSpacing": 55}, "themeVariables": {"fontSize": "15px"}} }%%
+flowchart LR
+    subgraph G1["1 · Entendimiento de la fuente"]
+        direction TB
+        A([INICIO]) --> B[(Bases fuente por cohorte:<br/>historia clinica electronica<br/>y registros administrativos<br/>Chile · Peru · Uruguay)]
+        B --> C[Perfilado de la fuente:<br/>estructura, metadatos,<br/>vocabularios y codificacion,<br/>cobertura temporal]
+        C --> D[/Diccionario de datos local<br/>y reporte de perfilado/]
+    end
+    subgraph G2["2 · Normalizacion y seudonimizacion"]
+        direction TB
+        E[Definir variables objetivo<br/>y diccionario comun<br/>del consorcio] --> F{Potencial de<br/>armonizacion?}
+        F -- Nulo --> G[Documentar como<br/>faltante sistematico]
+        F -- Total o parcial --> H[[Seudonimizacion en origen<br/>SHA-256 con sal / HMAC]]
+        G --> H
+        H --> I[ETL: extraccion, transformacion<br/>y carga; mapeo al diccionario<br/>comun, recodificacion,<br/>unidades SI, recalculo de TFGe]
+    end
+    subgraph G3["3 · Calidad e integracion"]
+        direction TB
+        J[(Dataset armonizado<br/>por cohorte)] --> K[Evaluacion de calidad:<br/>conformidad, completitud<br/>y plausibilidad<br/>verificacion y validacion]
+        K --> L{Cumple umbrales<br/>de calidad?}
+        L -- No --> M[Consulta al sitio y ajuste<br/>de reglas de transformacion]
+        M --> K
+        L -- Si --> N[Transferencia segura al<br/>Centro Coordinador de Datos]
+        N --> O[Integracion preservando el<br/>identificador de cohorte<br/>estructura de clusteres]
+    end
+    subgraph G4["4 · Dataset analitico"]
+        direction TB
+        P[Imputacion multiple dentro<br/>de cada cohorte] --> Q[(Dataset analitico IPD)]
+        Q --> R[Documentacion, metadatos<br/>y codigo en repositorio<br/>publico con versionado]
+        R --> S([FIN: listo para analisis<br/>ver Figura 1])
+    end
+    G1 -- "Diccionario local" --> G2
+    G2 -- "Datos transformados" --> G3
+    G3 -- "Dataset integrado" --> G4

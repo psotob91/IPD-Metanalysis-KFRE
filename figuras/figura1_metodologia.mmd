@@ -1,0 +1,35 @@
+%%{init: {"flowchart": {"htmlLabels": false, "nodeSpacing": 45, "rankSpacing": 55}, "themeVariables": {"fontSize": "15px"}} }%%
+flowchart LR
+    subgraph F1["FASE 1 · Identificacion de estudios"]
+        direction TB
+        A([INICIO<br/>registro en PROSPERO]) --> B[Busqueda sistematica<br/>MEDLINE, Embase,<br/>Scopus, Web of Science]
+        B --> C[/Registros identificados/]
+        C --> D[Cribado independiente<br/>por dos revisores]
+        D --> E{Estudio<br/>elegible?}
+        E -- No --> FX([Excluido: documentar<br/>en PRISMA-IPD])
+    end
+    subgraph F2["FASE 2 · Incorporacion de cohortes"]
+        direction TB
+        G[Invitacion al investigador<br/>por correo institucional] --> H{Acepta compartir<br/>datos individuales?}
+        H -- No --> I([Documentar y evaluar sesgo<br/>de disponibilidad de datos])
+        H -- Si --> J[[Aprobacion etica local y<br/>acuerdo de transferencia]]
+        J --> K[[Seudonimizacion, armonizacion<br/>e integracion - ver Figura 2]]
+        K --> L[(Dataset IPD<br/>armonizado)]
+    end
+    subgraph F3["FASE 3 · Analisis"]
+        direction TB
+        M[Etapa 1: analisis dentro<br/>de cada cohorte:<br/>discriminacion y calibracion<br/>con riesgo competitivo] --> N[Etapa 2: meta-analisis de<br/>efectos aleatorios:<br/>heterogeneidad e<br/>intervalos de prediccion]
+        N --> O{Miscalibracion<br/>clinicamente<br/>relevante?}
+        O -- Si --> P[Recalibracion jerarquica:<br/>riesgo basal, intercepto<br/>y predictor lineal]
+        P --> Q[Re-estimacion y sintesis<br/>del desempeno recalibrado]
+        Q --> R[Utilidad clinica:<br/>curvas de decision<br/>y beneficio neto]
+        O -- No --> R
+    end
+    subgraph F4["FASE 4 · Validez y reporte"]
+        direction TB
+        S[Analisis de sensibilidad y<br/>validacion cruzada<br/>interna-externa ciclica] --> T[Riesgo de sesgo<br/>y aplicabilidad:<br/>PROBAST]
+        T --> U([FIN: reporte conforme a<br/>TRIPOD-Cluster<br/>y difusion])
+    end
+    F1 -- "Estudio elegible" --> F2
+    F2 -- "Datos individuales recibidos" --> F3
+    F3 --> F4
